@@ -16,7 +16,7 @@ use vars qw(
 );
 @ISA = qw( Date::Set Set::Infinite );
 
-$VERSION = (qw'$Revision: 0.03_15 $')[1]; 
+$VERSION = (qw'$Revision: 0.04 $')[1]; 
 
 # avoid warnings about 'used only once'
 $Date::Set::PRETTY_PRINT = $Date::Set::PRETTY_PRINT;

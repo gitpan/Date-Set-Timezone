@@ -114,3 +114,5 @@ Changes for Date::Set::Timezone - Timezone/DST code for Date::Set
     - as_string doesn't show timezone for "inf"
 0.03_15
     - use separators() instead of @separators
+0.04
+    - upgrade Makefile.PL dependencies
