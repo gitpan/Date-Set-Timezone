@@ -1,0 +1,9 @@
+CHANGES
+MANIFEST
+README
+TODO
+Makefile.PL
+lib/Date/Set/Timezone.pm
+t/timezone.t
+make_readme
+make_htmldoc

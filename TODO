@@ -1,0 +1,57 @@
+# Timezone/DST code for Date::Set
+
+# TODO: fix _simple_spaceship() comparing [a..b] with [a..b)
+#    - use the code below:
+
+sub _simple_spaceship {
+    my ($tmp1, $tmp2, $inverted) = @_;
+    my $cmp;
+    # print "_simple_spaceship: $tmp1 <=> $tmp2 ($inverted) \n";
+    if ($inverted) {
+        $cmp = $tmp1->{a} <=> $tmp2->{a};
+        return -$cmp if $cmp;
+        $cmp = $tmp1->{open_begin} <=> $tmp2->{open_begin};
+        return $cmp if $cmp;
+        $cmp = $tmp1->{b} <=> $tmp2->{b}; 
+        return -$cmp if $cmp;
+        $cmp = $tmp1->{open_end} <=> $tmp2->{open_end};
+        return $cmp;
+    }
+    $cmp = $tmp1->{a} <=> $tmp2->{a};
+    return $cmp if $cmp;
+    $cmp = $tmp1->{open_begin} <=> $tmp2->{open_begin};
+    return -$cmp if $cmp;
+    $cmp = $tmp1->{b} <=> $tmp2->{b}; 
+    return $cmp if $cmp;
+    $cmp = $tmp1->{open_end} <=> $tmp2->{open_end};
+    return -$cmp;
+}
+
+#
+# TODO: more POD; include 'NOTES:' in pod.
+# TODO: standard directory structure and Makefile.PL
+#
+# TODO: offset, quantize: add code to deal with unbounded recurrences, first()
+# TODO: fix the 'contains()' code in _tz_change()
+#   - we don't actually have 'integer' sets 
+# TODO: as_string should not show timezone for $inf/-$inf
+# TODO: join RRULE_begin+RRULE_end (in Set::Infinite ? - modify union() code )
+#
+# To do later:
+# TODO: check how does quantize-hours behave under non-integral-hours timezones
+# TODO: make a special version of new() that accepts a timezone.
+#    - might need to parse the timezone name in order to make
+#      correct end-of-DST decisions.
+# TODO: new() parameters without a 'Z' should be local time.
+# TODO: optimize _tz_change()
+#   - use offset() code instead of list()
+#
+# Some things I'm not sure yet:
+# TODO: use a TZ 'id' such that we know 2 sets have the same TZ ?
+# TODO: Cache tz/stringified version? (uses UTC internally) ?
+# TODO: open_end option for offset ? - in Set::Infinite
+# TODO: is_dst( $tz, $ical_utc ) tells if a time is DST or not.
+# TODO: global TZ
+# TODO: make duration() accept the 'utc' parameter ?
+#
+

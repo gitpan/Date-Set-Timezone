@@ -1,0 +1,98 @@
+NAME
+    Date::Set::Timezones - Date set math with timezones and DST
+
+SYNOPSIS
+        use Date::Set::Timezone;
+
+        $a = Date::Set::Timezone->event( at => '20020311Z' );      # 20020311
+
+        # TODO! (see timezone.t for some examples)
+
+DESCRIPTION
+    Date::Set::Timezone is a module for date/time sets. It allows you to
+    generate groups of dates, like "every wednesday", and then find all the
+    dates matching that pattern. It also allows operations with timezones
+    and daylight saving times.
+
+    This module is part of the Reefknot project http://reefknot.sf.net
+
+    It requires Date::ICal, Set::Infinite, and Date::Set.
+
+    It doesn't include timezones definitions.
+
+TIMEZONE METHODS
+  tz
+
+    Translates a set to another timezone. It changes the timezone only. Time
+    values are not changed.
+
+        tz( { dst => $new_timezone_set , 
+              name => ['STD-1', 'DST-1'], 
+              offset => [ 3600, 2*3600 ] } )
+
+    This is a function. It doesn't change it's object. It returns a new
+    object.
+
+    tz() without a parameter allows to work in 'local time' or 'UTC' mode
+    (remove timezone info).
+
+    There might be conversion errors nearby DST endings because of 'repeated
+    times' when time 'goes back'.
+
+  tz_change
+
+    Moves a set to another timezone. It changes both the timezone and time
+    values, and adjusts DST.
+
+        tz_change( { dst => $new_timezone_set , 
+              name => ['STD-1', 'DST-1'], 
+              offset => [ 3600, 2*3600 ] } )
+
+    This is a function. It doesn't change it's object. It returns a new
+    object.
+
+    tz_change() without a parameter moves the set to 'UTC'.
+
+DATE::SET METHODS
+  new
+
+    new() behaves differently from Date::Set::new() in that:
+
+        $new_set = $set->new();
+
+    keeps timezone info.
+
+  as_string
+
+    as_string() behaves differently from Date::Set::as_string() in that it
+    prints timezone/DST info.
+
+    If supplied with a timezone argument, as_string() stringifies the times
+    under that timezone.
+
+    as_string(undef) stringifies the set as UTC times.
+
+  offset
+
+    offset() behaves differently from Date::Set::offset() in that times are
+    adjusted for timezone/DST.
+
+    Parameter 'utc' specifies how the offset should be calculated:
+
+        utc => 1  # uses UTC time
+        utc => 0  # (default) uses clock time (local time); adjusts for timezone/DST
+
+  quantize
+
+    quantize() behaves differently from Date::Set::quantize() in that times
+    are adjusted for timezone/DST.
+
+    Parameter 'utc' specifies how the offset should be calculated:
+
+        utc => 1  # uses UTC time
+        utc => 0  # (default) uses clock time (local time); adjusts for timezone/DST
+
+AUTHOR
+    Flavio Soibelmann Glock <fglock@pucrs.br> with the Reefknot team,
+    specially Martijn van Beers.
+
