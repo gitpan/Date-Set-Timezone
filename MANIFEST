@@ -10,3 +10,4 @@ t/floating.t
 make_readme
 make_htmldoc
 
+META.yml                                Module meta-data (added by MakeMaker)

@@ -7,7 +7,7 @@
 package Date::Set::Timezone;
 
 use strict;
-use warnings;
+# use warnings;
 use Carp;
 use Date::Set;
 use AutoLoader;
@@ -16,7 +16,7 @@ use vars qw(
 );
 @ISA = qw( Date::Set Set::Infinite );
 
-$VERSION = (qw'$Revision: 0.04 $')[1]; 
+$VERSION = 0.05; 
 
 # avoid warnings about 'used only once'
 $Date::Set::PRETTY_PRINT = $Date::Set::PRETTY_PRINT;
@@ -28,7 +28,7 @@ my $inf = 100**100**100;
 
 =head1 NAME
 
-Date::Set::Timezones - Date set math with timezones and DST
+Date::Set::Timezone - DEPRECATED - use DateTime::Set - Date set math with timezones and DST
 
 =head1 SYNOPSIS
 
@@ -327,7 +327,7 @@ sub new {
     my $class = shift;
     my $class_name = ref( $class ) || $class;
     my $self;
-    if ( UNIVERSAL::isa( $_[0], $class_name ) ) {
+    if ( defined $_[0] && UNIVERSAL::isa( $_[0], $class_name ) ) {
         $self = $_[0]->copy;
     }
     else {

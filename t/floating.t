@@ -1,3 +1,4 @@
+#!perl -w
 # Timezone/DST code for Date::Set
 
 # Copyright (c) 2003 Flavio Soibelmann Glock. All rights reserved.
@@ -7,7 +8,7 @@
 # test cases
 
 use strict;
-use warnings;
+# use warnings;
 use Test::More qw(no_plan);
 use Date::Set::Timezone;
 $| = 1;
