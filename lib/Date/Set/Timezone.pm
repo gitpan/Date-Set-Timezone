@@ -13,7 +13,7 @@ use Date::Set;
 use vars qw( @ISA $VERSION );
 @ISA = qw( Date::Set Set::Infinite );
 
-our $VERSION = (qw'$Revision: 0.02 $')[1]; 
+our $VERSION = (qw'$Revision: 0.03 $')[1]; 
 
 # avoid warnings about 'used only once'
 $Date::Set::PRETTY_PRINT = $Date::Set::PRETTY_PRINT;
@@ -279,7 +279,7 @@ sub _simple_as_string {
     if ($tmp1 == $tmp2) {
         $tmp1 = Date::Set::ICal->new( $tmp1 + $tz->{offset}[$dst1] );
         $tmp1 =~ s/Z//;
-        return $tmp1 . " " . $tz->{name}[$dst1];
+        return $tmp1 . ($tz->{name}[$dst1] ? " " . $tz->{name}[$dst1] : "") ;
     }
     # $tmp1 = "$tmp1";
     # $tmp2 = "$tmp2";
@@ -289,8 +289,9 @@ sub _simple_as_string {
     $tmp1 =~ s/Z//;
     $tmp2 =~ s/Z//;
     $s = $self->{open_begin} ? $Set::Infinite::separators[2] : $Set::Infinite::separators[0];
-    $s .= $tmp1 . " " . $tz->{name}[$dst1] . 
-        $Set::Infinite::separators[4] . $tmp2 . " " . $tz->{name}[$dst2];
+    $s .= $tmp1 . ($tz->{name}[$dst1] ? " " . $tz->{name}[$dst1] : "" ). 
+        $Set::Infinite::separators[4] . $tmp2 . 
+        ($tz->{name}[$dst2] ? " " . $tz->{name}[$dst2] : "") ;
     $s .= $self->{open_end} ? $Set::Infinite::separators[3] : $Set::Infinite::separators[1];
     return $s;
 }
@@ -375,7 +376,8 @@ sub quantize {
 =head1 AUTHOR
 
 Flavio Soibelmann Glock <fglock@pucrs.br> 
-with the Reefknot team, specially Martijn van Beers.
+
+Thanks to Martijn van Beers for help with testing, examples, and API discussions.
 
 =cut
 

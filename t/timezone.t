@@ -175,5 +175,63 @@ is ( ''.$set2,
     "hourly recurrence near DST begin - $set");
 
 
+
+
+# $Set::Infinite::TRACE = 1;
+# $Set::Infinite::PRETTY_PRINT = 1;
+
+# creates a timezone specified by unbounded recurrences
+# DTSTART mask is yyyy/mm/05 02:00:00 local time
+my $dst_dtstart = Date::Set::Timezone->event( at => '20010105T020000Z' );
+# warn "tz_recurr dtstart $dst_dtstart";
+# $dst_dtstart = $dst_dtstart->fixtype;
+# warn "tz_recurr dtstart $dst_dtstart";
+
+my $dst_start = Date::Set::Timezone
+    ->dtstart( start => $dst_dtstart )
+    ->event( rule=>'FREQ=YEARLY;BYMONTH=3' );
+my $dst_end   = Date::Set::Timezone
+    ->dtstart( start => $dst_dtstart )
+    ->event( rule=>'FREQ=YEARLY;BYMONTH=6' );
+my $tz_recurr = {
+    dst => $dst_start->until( $dst_end ) ,
+    name => ['', 'dst'] ,
+    offset => [ 2*3600, 1*3600 ] ,
+};
+
+# $dst_dtstart = $dst_dtstart->fixtype;
+# warn "tz_recurr dtstart $dst_dtstart";
+# warn "tz_recurr name @{$tz_recurr->{name}} ; dst ".$tz_recurr->{dst};
+# $Set::Infinite::TRACE = 1;
+# $Set::Infinite::PRETTY_PRINT = 1;
+# warn "tz_recurr start ". $dst_start->intersection( '20030101Z', '20040101Z' );
+# warn "tz_recurr end   ". $dst_end->intersection( '20030101Z', '20040101Z' );
+# $Set::Infinite::TRACE = 1;
+# $Set::Infinite::PRETTY_PRINT = 1;
+# warn "tz_recurr bounded ". $tz_recurr->{dst}->intersection( '20030101Z', '20040101Z' );
+
+is ( ''.$tz_recurr->{dst}->intersection( '20030101Z', '20040101Z' ),
+    '[20030305T020000Z..20030605T020000Z)',
+    # '[20030301Z..20030601Z)',
+    'a dst specification made of two recurrences' );
+
+$set = Date::Set::Timezone->new( 
+    '20030105Z', '20030107Z',    # before DST
+    '20030205Z', '20030315Z',    # DST begins
+    '20030405Z', '20030410Z',    # inside DST
+    '20030505Z', '20030701Z',    # DST ends
+);
+
+# $Set::Infinite::TRACE = 1;
+# $Set::Infinite::PRETTY_PRINT = 1;
+
+is ( ''.$set->tz_change( $tz_recurr ),
+    '[20030105T020000..20030107T020000],'.
+    '[20030205T020000..20030315T010000 dst],'.
+    '[20030405T010000 dst..20030410T010000 dst],'.
+    '[20030505T010000 dst..20030701T020000]',
+    'timezone specified by unbounded recurrences' );
+
+
 1;
 

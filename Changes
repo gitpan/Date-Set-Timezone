@@ -65,5 +65,12 @@
 #    - requires Set::Infinite v.0.39 - correction in spaceship()
 # 0.02
 #    - tar.gz packaging
+# 0.02_01
+#    - timezone without name doesn't print with 'space'
+# 0.02_02
+#    - 'until' works
+# 0.02_03
+#    - added tests for dst with DTSTART
 #
+
 
