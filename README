@@ -20,6 +20,44 @@ DESCRIPTION
 
     It doesn't include timezones definitions.
 
+RELEASE NOTES
+  Floating time
+
+    Any existing Date::Set or Date::ICal data is interpreted as floating
+    time.
+
+    Some methods interpret 'floating time' as UTC. This is a bug.
+
+    For example: $set_with_tz->union( $float_set ) considers (wrongly)
+    $float_set as UTC.
+
+    A workaround is to use the tz method to 'normalize' the floating time:
+
+         $set_with_tz->union( $float_set->tz( $tz ) )
+
+  Set data
+
+    Data extracted from sets as Date::ICal objects will always come in UTC
+    time.
+
+    Floating times are not affected.
+
+  new()
+
+    Parameters to new() must be UTC time (with 'Z' at the end). They
+    generate floating times, however.
+
+    This command is wrongly interpreting $float_data as UTC:
+
+        $new_set = $set_with_tz->new( $float_data )
+
+  RRULE:UNTIL
+
+    RRULE:UNTIL= only works for UTC time, because of the way new() works.
+    This is what RFC2445 expects, anyway!
+
+    This has not been tested yet.
+
 TIMEZONE METHODS
   tz
 
@@ -33,8 +71,8 @@ TIMEZONE METHODS
     This is a function. It doesn't change it's object. It returns a new
     object.
 
-    tz() without a parameter allows to work in 'local time' or 'UTC' mode
-    (remove timezone info).
+    tz() without a parameter allows to work in 'floating time' mode (remove
+    timezone info).
 
     There might be conversion errors nearby DST endings because of 'repeated
     times' when time 'goes back'.
@@ -51,7 +89,8 @@ TIMEZONE METHODS
     This is a function. It doesn't change it's object. It returns a new
     object.
 
-    tz_change() without a parameter moves the set to 'UTC'.
+    tz_change() without a parameter removes the timezone information, moving
+    the time back to 'UTC' and creating a 'floating time' set.
 
 DATE::SET METHODS
   new
@@ -60,7 +99,7 @@ DATE::SET METHODS
 
         $new_set = $set->new();
 
-    keeps timezone info.
+    $new_set receives $set timezone info.
 
   as_string
 
@@ -70,7 +109,7 @@ DATE::SET METHODS
     If supplied with a timezone argument, as_string() stringifies the times
     under that timezone.
 
-    as_string(undef) stringifies the set as UTC times.
+    as_string(undef) stringifies the set as floating times.
 
   offset
 
@@ -93,6 +132,8 @@ DATE::SET METHODS
         utc => 0  # (default) uses clock time (local time); adjusts for timezone/DST
 
 AUTHOR
-    Flavio Soibelmann Glock <fglock@pucrs.br> with the Reefknot team,
-    specially Martijn van Beers.
+    Flavio Soibelmann Glock <fglock@pucrs.br>
+
+    Thanks to Martijn van Beers for help with testing, examples, and API
+    discussions.
 

@@ -1,76 +1,115 @@
-# Timezone/DST code for Date::Set
+Changes for Date::Set::Timezone - Timezone/DST code for Date::Set
 
-# Changes
-# 0.01_04 
-#    - added a test from Martijn van Beers (and got an error)
-#    - tz() doesn't change $self
-# 0.01_05
-#    -  make a 'package'
-# 0.01_06
-#    - inherits Date::Set
-# 0.01_07
-#    - utc_string
-# 0.01_08
-#    - utc_string finished
-# 0.01_09
-#    - utc_string renamed tz_string
-#    - Martijn's test works
-# 0.01_10
-#    - renamed _simple_utc_as_string to _simple_as_string
-# 0.01_11
-#    - more oo-like tests
-#    - print $set works
-# 0.01_12
-#    - tz() and tz_change are better defined
-#    - offset() works for days/months/years
-# 0.01_13
-#    - quantize()
-#    - the $self->{cant_cleanup} property is preserved across tz changes
-# 0.01_14
-#    - quantize() tests
-# 0.01_15
-#    - recur_by_rule started
-# 0.01_16
-#    - recur_by_rule normalizes parameters to $self timezone
-# 0.01_17
-#    - recur_by_rule removed ! Date::Set::recur_by_rule works better.
-# 0.01_18
-#    - POD
-#    - tests
-# 0.01_19, 0.01_20
-#    - more tests
-# 0.01_21
-#    - changed test offset to +02/+03
-# 0.01_22
-#    - better test sequence for DST start/end
-# 0.01_23
-#    - tests
-#    - found _simple_spaceship() bug in Set::Infinite::_Simple.pm
-# 0.01_24
-#    - pass DST start/end tests
-# 0.01_25
-#    - rrule with 'local time' hours
-#    - documented 'utc' option (although it is not implemented yet)
-# 0.01_26
-#    - added 'weeks' to 'utc'=>0 defaults
-# 0.01_27
-#    - finished 'utc=>0' code
-#    - added 'hours' and 'weekdays' to default 'utc=>0' in order to make RRULE work
-#      this actually changes default 'utc' behaviour to zero, since it doesn't make 
-#      diference for minutes or seconds units.
-#    - duration() now works in 'local time' mode only, since it doesn't know about 'utc=>1'.
-#    - all tests pass
-# 0.01_28
-#    - split files
-#    - requires Set::Infinite v.0.39 - correction in spaceship()
-# 0.02
-#    - tar.gz packaging
-# 0.02_01
-#    - timezone without name doesn't print with 'space'
-# 0.02_02
-#    - 'until' works
-# 0.02_03
-#    - added tests for dst with DTSTART
-#
-
+ 0.01_04 
+    - added a test from Martijn van Beers (and got an error)
+    - tz() doesn't change $self
+ 0.01_05
+    -  make a 'package'
+ 0.01_06
+    - inherits Date::Set
+ 0.01_07
+    - utc_string
+ 0.01_08
+    - utc_string finished
+ 0.01_09
+    - utc_string renamed tz_string
+    - Martijn's test works
+ 0.01_10
+    - renamed _simple_utc_as_string to _simple_as_string
+ 0.01_11
+    - more oo-like tests
+    - print $set works
+ 0.01_12
+    - tz() and tz_change are better defined
+    - offset() works for days/months/years
+ 0.01_13
+    - quantize()
+    - the $self->{cant_cleanup} property is preserved across tz changes
+ 0.01_14
+    - quantize() tests
+ 0.01_15
+    - recur_by_rule started
+ 0.01_16
+    - recur_by_rule normalizes parameters to $self timezone
+ 0.01_17
+    - recur_by_rule removed ! Date::Set::recur_by_rule works better.
+ 0.01_18
+    - POD
+    - tests
+ 0.01_19, 0.01_20
+    - more tests
+ 0.01_21
+    - changed test offset to +02/+03
+ 0.01_22
+    - better test sequence for DST start/end
+ 0.01_23
+    - tests
+    - found _simple_spaceship() bug in Set::Infinite::_Simple.pm
+ 0.01_24
+    - pass DST start/end tests
+ 0.01_25
+    - rrule with 'local time' hours
+    - documented 'utc' option (although it is not implemented yet)
+ 0.01_26
+    - added 'weeks' to 'utc'=>0 defaults
+ 0.01_27
+    - finished 'utc=>0' code
+    - added 'hours' and 'weekdays' to default 'utc=>0' in order to make RRULE work
+      this actually changes default 'utc' behaviour to zero, since it doesn't make 
+      diference for minutes or seconds units.
+    - duration() now works in 'local time' mode only, since it doesn't know about 'utc=>1'.
+    - all tests pass
+ 0.01_28
+    - split files
+    - requires Set::Infinite v.0.39 - correction in spaceship()
+ 0.02
+    - tar.gz packaging
+ 0.02_01
+    - timezone without name doesn't print with 'space'
+ 0.02_02
+    - 'until' works
+ 0.02_03
+    - added tests for dst with DTSTART
+ 0.03_01
+    - Date::ICal methods are accessible through AUTOLOAD
+ 0.03_02
+    - better stringification. Understands the difference between
+      'floating time' and 'UTC'; prints long timezone names with ';'
+      instead of space (just because it looks better).
+    - all Date::ICal objects are 'floating time' by default;
+      new() generates only floating times (instead of UTC).
+      (actually, new() is broken, because it doesn't change
+      it's data when it inherits a timezone)
+    - include 'release notes' in POD
+    - document 'floating time' vs UTC problems
+0.03_03
+    - tz_change does not change floating times.
+      (breaks some tests!)
+0.03_04
+    - new() fixed -- changes it's data when it inherits a timezone
+    - some tests fixed
+    (some debug code added)
+0.03_05
+    - fixed dst in _tz_change (uses {dst_utc}, then {dst})
+0.03_06
+    - some internal error in @{ $self->{list} }
+0.03_07
+    - union() works with floating times.
+    - most tests fail, due to new union() behaviour
+0.03_08
+    - union() tests ok
+    - fixed a bug in Set::Infinite::copy
+0.03_09
+    - all methods accept mixing tz-times and floating-times
+0.03_10
+    - remove utc=>1 option (quantize/offset)
+0.03_11
+    - tz(), tz_change() accept recurrences
+0.03_12
+    - documentation
+    - tz has an internal 'id'
+    - performs less internal tz conversions (tests run 4s -> 1.8s)
+0.03_14
+    - uses 'dst cache' (tests run in 0.8s)
+    - as_string doesn't show timezone for "inf"
 

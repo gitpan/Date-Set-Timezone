@@ -1,27 +1,35 @@
-# Timezone/DST code for Date::Set
+TODO for Date::Set::Timezone - Timezone/DST code for Date::Set
 
-# TODO: more POD; include 'NOTES:' in pod.
-#
-# TODO: offset, quantize: add code to deal with unbounded recurrences, first()
-# TODO: fix the 'contains()' code in _tz_change()
-#   - we don't actually have 'integer' sets 
-# TODO: as_string should not show timezone for $inf/-$inf
-#
-# To do later:
-# TODO: check how does quantize-hours behave under non-integral-hours timezones
-# TODO: make a special version of new() that accepts a timezone.
-#    - might need to parse the timezone name in order to make
-#      correct end-of-DST decisions.
-# TODO: new() parameters without a 'Z' should be local time.
-# TODO: optimize _tz_change()
-#   - use offset() code instead of list()
-#
-# Some things I'm not sure yet:
-# TODO: use a TZ 'id' such that we know 2 sets have the same TZ ?
-# TODO: Cache tz/stringified version? (uses UTC internally) ?
-# TODO: open_end option for offset ? - in Set::Infinite
-# TODO: is_dst( $tz, $ical_utc ) tells if a time is DST or not.
-# TODO: global TZ
-# TODO: make duration() accept the 'utc' parameter ?
-#
+- verify the context/results for 'days' vs 'hours' in quantize/offset
+
+- floating->union(tz) should return set in timezone (not floating)
+  It returns whatever tz the first parameter is.
+
+- t/floating.t - write more tests for tz->union(floating) / floating->union(tz) ...
+
+- fix the 'contains()' code in _tz_change()
+   - we don't actually have 'integer' sets 
+
+------ To do later:
+
+TODO: check how does quantize-hours behave under non-integral-hours timezones
+
+TODO: make a special version of new() that accepts a timezone.
+    - might need to parse the timezone name in order to make
+      correct end-of-DST decisions.
+
+TODO: new() parameters without a 'Z' should be local time,
+  with Z should be UTC.
+
+TODO: optimize _tz_change()
+   - use offset() code instead of list()
+
+------ Some things I'm not sure yet:
+
+TODO: use a TZ 'id' such that we know 2 sets have the same TZ ?
+TODO: Cache tz/stringified version? (uses UTC internally) ?
+TODO: open_end option for offset ? - in Set::Infinite
+TODO: is_dst( $tz, $ical_utc ) tells if a time is DST or not.
+TODO: global TZ, read environment
+TODO: make duration() accept the 'utc' parameter ?
 

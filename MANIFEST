@@ -6,6 +6,7 @@ TODO
 Makefile.PL
 lib/Date/Set/Timezone.pm
 t/timezone.t
+t/floating.t
 make_readme
 make_htmldoc
 
