@@ -16,7 +16,7 @@ use vars qw(
 );
 @ISA = qw( Date::Set Set::Infinite );
 
-$VERSION = (qw'$Revision: 0.03_14 $')[1]; 
+$VERSION = (qw'$Revision: 0.03_15 $')[1]; 
 
 # avoid warnings about 'used only once'
 $Date::Set::PRETTY_PRINT = $Date::Set::PRETTY_PRINT;
@@ -395,7 +395,7 @@ sub as_string {
     return ( $Date::Set::PRETTY_PRINT ? $self->_pretty_print : $Date::Set::too_complex ) if $self->{too_complex};
     $self->cleanup;
     # warn "LIST = @{$self->{list}}";
-    $s = join($Set::Infinite::separators[5], map { _simple_as_string($_, $tz) } @{$self->{list}} );
+    $s = join( Set::Infinite->separators(5), map { _simple_as_string($_, $tz) } @{$self->{list}} );
     # warn "/as_string";
     return $s;
  }
@@ -454,9 +454,9 @@ sub _simple_as_string {
         my $dst2 = $tz->{dst_utc_cache}{$year_max}->intersects( $tmp2 ) ? 1 : 0;
         $s2 = _format_tz( Date::Set::ICal->new( $tmp2 + $tz->{offset}[$dst2] ), $tz->{name}[$dst2] );
     }
-    $s = $self->{open_begin} ? $Set::Infinite::separators[2] : $Set::Infinite::separators[0];
-    $s .= $s1 . $Set::Infinite::separators[4] . $s2 ;
-    $s .= $self->{open_end} ? $Set::Infinite::separators[3] : $Set::Infinite::separators[1];
+    $s = $self->{open_begin} ? Set::Infinite->separators(2) : Set::Infinite->separators(0);
+    $s .= $s1 . Set::Infinite->separators(4) . $s2 ;
+    $s .= $self->{open_end} ? Set::Infinite->separators(3) : Set::Infinite->separators(1);
     return $s;
 }
 

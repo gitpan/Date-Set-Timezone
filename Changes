@@ -112,4 +112,5 @@ Changes for Date::Set::Timezone - Timezone/DST code for Date::Set
 0.03_14
     - uses 'dst cache' (tests run in 0.8s)
     - as_string doesn't show timezone for "inf"
-
+0.03_15
+    - use separators() instead of @separators
